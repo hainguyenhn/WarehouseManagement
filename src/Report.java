@@ -49,7 +49,6 @@ timer.scheduleAtFixedRate(task, initialDelay, period);
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        refreshButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
 
@@ -73,13 +72,6 @@ timer.scheduleAtFixedRate(task, initialDelay, period);
         jTable1 = Database.displayTable(jTable1, "aa");
         jScrollPane1.setViewportView(jTable1);
 
-        refreshButton.setText("Refresh");
-        refreshButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                refreshButtonActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -87,8 +79,7 @@ timer.scheduleAtFixedRate(task, initialDelay, period);
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(435, 435, 435)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 422, Short.MAX_VALUE)
-                .addComponent(refreshButton))
+                .addGap(0, 499, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1))
@@ -96,11 +87,9 @@ timer.scheduleAtFixedRate(task, initialDelay, period);
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(refreshButton))
+                .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -149,11 +138,6 @@ timer.scheduleAtFixedRate(task, initialDelay, period);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
-        jTable1 = Database.displayTable(jTable1, "sd");
-        jTable1.repaint();
-    }//GEN-LAST:event_refreshButtonActionPerformed
 
     
   
@@ -206,6 +190,5 @@ timer.scheduleAtFixedRate(task, initialDelay, period);
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JButton refreshButton;
     // End of variables declaration//GEN-END:variables
 }
