@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 17, 2014 at 05:42 AM
+-- Generation Time: Nov 19, 2014 at 04:11 AM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -23,6 +23,27 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `categorytable`
+--
+
+CREATE TABLE IF NOT EXISTS `categorytable` (
+`categoryId` int(10) NOT NULL,
+  `categoryName` varchar(50) NOT NULL,
+  `updatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `categorytable`
+--
+
+INSERT INTO `categorytable` (`categoryId`, `categoryName`, `updatedAt`) VALUES
+(1, 'pencil', '2014-11-17 17:46:10'),
+(2, 'pen', '2014-11-17 17:46:10'),
+(3, 'ruler', '2014-11-17 17:46:33');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `inventory`
 --
 
@@ -33,22 +54,43 @@ CREATE TABLE IF NOT EXISTS `inventory` (
   `categoryid` int(10) NOT NULL,
   `quantity` int(10) NOT NULL,
   `price` double NOT NULL,
-  `updateAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+  `updateAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data for table `inventory`
 --
 
 INSERT INTO `inventory` (`productid`, `productname`, `description`, `categoryid`, `quantity`, `price`, `updateAt`) VALUES
-(6, 'ruler', 'my ruler	', 12, 12, 1.99, '2014-11-15 19:03:12'),
-(7, 'admin', 'Product Description:', 1, 10, 1.22, '2014-11-15 19:03:12'),
-(8, 'hai', 'ngsadf	', 1, 12, 1.88, '2014-11-15 19:03:47'),
-(9, 'fdas', 'fdas', 2, 1, 22, '2014-11-15 19:06:18'),
-(10, 'meeee', 'Product Description:			', 1, 13, 2.992, '2014-11-15 19:17:06'),
-(11, 'pencil', 'my pencil desectiption		', 13, 12, 1.22, '2014-11-15 19:17:48'),
-(12, 'pen', 'hadf	', 144, 44, 122, '2014-11-15 19:19:01'),
-(13, 'ruler', 'kaka	', 11, 100, 299.3, '2014-11-15 22:48:43');
+(17, 'ruler', 'Product Description:', 3, 100, 2.99, '2014-11-17 18:43:07');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `returntable`
+--
+
+CREATE TABLE IF NOT EXISTS `returntable` (
+`returnId` int(10) NOT NULL,
+  `transactioinId` int(10) NOT NULL,
+  `productId` int(10) NOT NULL,
+  `quantity` int(10) NOT NULL,
+  `Date` date NOT NULL,
+  `updateAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `salerecord`
+--
+
+CREATE TABLE IF NOT EXISTS `salerecord` (
+  `transactionId` int(10) NOT NULL,
+  `productId` int(10) NOT NULL,
+  `quantity` int(10) NOT NULL,
+  `updateAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -79,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `usertable` (
   `address` varchar(100) NOT NULL,
   `role` enum('Admin','Customer','','') NOT NULL,
   `updateAt` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
 
 --
 -- Dumping data for table `usertable`
@@ -87,20 +129,35 @@ CREATE TABLE IF NOT EXISTS `usertable` (
 
 INSERT INTO `usertable` (`customerid`, `userName`, `password`, `firstName`, `lastName`, `phone`, `address`, `role`, `updateAt`) VALUES
 (4, 'admin', 'admin', 'hai', 'nguyen', '4086169241', '2608 Carmella Ct San Jose 95135', 'Admin', '0000-00-00 00:00:00'),
-(5, 'hainguyenhn', 'haih', 'hai', 'nguyen', '4086169242', 'Addressfdafdsfjdlksa', 'Admin', '2014-11-16 23:55:36'),
-(6, 'kim', 'kim', 'kim', 'pham', '4082097763', '1829 Trudean Way, San Jose, Ca 95135', 'Customer', '2014-11-14 23:50:14'),
-(7, 'User Name', 'jPasswordField1', 'First Name', 'Last Name', '1', 'Address:', 'Customer', '2014-11-14 23:53:30'),
-(8, 'User Namedd', 'jPasswordField1', 'First Name', 'Last Name', '2', 'Address:', 'Admin', '0000-00-00 00:00:00');
+(14, 'user', 'user', 'First Name', 'Last Name', '1233', 'Address:', 'Customer', '0000-00-00 00:00:00');
 
 --
 -- Indexes for dumped tables
 --
 
 --
+-- Indexes for table `categorytable`
+--
+ALTER TABLE `categorytable`
+ ADD PRIMARY KEY (`categoryId`);
+
+--
 -- Indexes for table `inventory`
 --
 ALTER TABLE `inventory`
  ADD PRIMARY KEY (`productid`);
+
+--
+-- Indexes for table `returntable`
+--
+ALTER TABLE `returntable`
+ ADD PRIMARY KEY (`returnId`), ADD KEY `transactioinId` (`transactioinId`,`productId`);
+
+--
+-- Indexes for table `salerecord`
+--
+ALTER TABLE `salerecord`
+ ADD PRIMARY KEY (`transactionId`);
 
 --
 -- Indexes for table `transaction`
@@ -119,10 +176,20 @@ ALTER TABLE `usertable`
 --
 
 --
+-- AUTO_INCREMENT for table `categorytable`
+--
+ALTER TABLE `categorytable`
+MODIFY `categoryId` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
 -- AUTO_INCREMENT for table `inventory`
 --
 ALTER TABLE `inventory`
-MODIFY `productid` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
+MODIFY `productid` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
+--
+-- AUTO_INCREMENT for table `returntable`
+--
+ALTER TABLE `returntable`
+MODIFY `returnId` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `transaction`
 --
@@ -132,7 +199,7 @@ MODIFY `transactionID` int(10) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `usertable`
 --
 ALTER TABLE `usertable`
-MODIFY `customerid` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+MODIFY `customerid` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
 --
 -- Constraints for dumped tables
 --
