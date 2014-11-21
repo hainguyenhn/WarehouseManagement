@@ -90,7 +90,7 @@ public class Database
                     + infor.get(0).toString() +"," + infor.get(1).toString() +"," + infor.get(2).toString()+","
                     + infor.get(3).toString() +"," + infor.get(4).toString() +"," + infor.get(5).toString()+","
                     + infor.get(6).toString()+")";
-            System.out.print(myStament);
+      
             stmt = conn.createStatement();
             stmt.execute(myStament);
 
@@ -151,11 +151,8 @@ public class Database
             while(rs.next())
             {
                 myCustomer.customerId = rs.getInt("customerid");
-                System.out.println(myCustomer.customerId);
                 myCustomer.userName = rs.getString("userName");
-                System.out.println(myCustomer.userName);
                 myCustomer.password = rs.getString("password");
-                System.out.println(myCustomer.password);
                 myCustomer.firstName = rs.getString("firstName");
                 myCustomer.lastName = rs.getString("lastName");
                 myCustomer.phone = rs.getString("phone");
@@ -261,7 +258,7 @@ public class Database
             stmt = conn.createStatement();
             stmt.execute(myStament);
 
-            System.out.print(myStament);
+           
             //check rows affected
             if(stmt.getUpdateCount() >0)
             {
@@ -281,9 +278,10 @@ public class Database
     {
         connection();
         Statement stmt = conn.createStatement();
-        String myStatement = "SELECT productid, productname, description, categoryid, quantity, price " +
-"FROM inventory";
-        ResultSet rs = stmt.executeQuery(myStatement);
+     String myStatement = option;
+     //String myStatement = "SELECT productid, productname, description, categoryid, quantity, price FROM inventory";
+    
+          ResultSet rs = stmt.executeQuery(myStatement);
 
         //To remove previously added rows
         while(myTable.getRowCount() > 0)
@@ -315,10 +313,10 @@ public class Database
          try {
             connection();
             String myStament = "UPDATE inventory "+
-                        " SET quantity =  " +quantityBought
+                        " SET inventory.quantity = inventory.quantity - " +quantityBought
                     + " WHERE inventory.productname = '" + itemName +"'"
                     ;
-             System.out.println(myStament);
+          
             stmt = conn.createStatement();
             stmt.execute(myStament);
                if(!(stmt.getUpdateCount() > 0))
@@ -335,7 +333,7 @@ public class Database
                //insert into transaction table.
             String secondStatement = "INSERT INTO transaction (customerId) Values (@mycustomerID);";
             stmt.execute(secondStatement);
-            System.out.println(secondStatement);
+            
 
              if(!(stmt.getUpdateCount() > 0))
             {
@@ -368,6 +366,7 @@ public class Database
         return success;
    }//end of checkout
 
+   //loads mysql procedures.
    public static void loadProg()
    {
        String getcustomerIdMethod0 = "DROP PROCEDURE IF EXISTS getCustomerId;";
@@ -379,6 +378,24 @@ public class Database
 "FROM inventory \n" +
 "WHERE inventory.productname = itemName;\n" +
 "END";
+       
+       String checkReturnTrigger0 = "DROP TRIGGER IF EXISTS checkreturn;";
+       String checkReturnTrigger1 = "CREATE TRIGGER checkReturn BEFORE INSERT ON returntable\n" +
+"FOR EACH ROW\n" +
+"BEGIN\n" +
+"DECLARE myError INTEGER;\n" +
+"IF EXISTS \n" +
+"(SELECT * FROM salerecord WHERE salerecord.transactionId = new.transactionId AND salerecord.productId = new.productId AND salerecord.quantity >= new.quantity)\n" +
+"THEN \n" +
+"UPDATE salerecord\n" +
+"SET salerecord.quantity = salerecord.quantity - new.quantity WHERE salerecord.productId = new.productId;\n"+
+"UPDATE inventory\n" +
+"SET inventory.quantity = inventory.quantity + new.quantity WHERE inventory.productid = new.productId;\n" +
+"ELSE\n" +
+"UPDATE insert_failed SET xzd = 0;\n" +
+"END IF;\n" +
+"END";
+       
         try {
             connection();
             stmt = conn.createStatement();
@@ -386,10 +403,64 @@ public class Database
             stmt.execute(getcustomerIdMethod);
             stmt.execute(getItemIdMethod0);
             stmt.execute(getItemIdMethod1);
+            stmt.execute(checkReturnTrigger0);
+           // stmt.execute(delimiter);
+            stmt.execute(checkReturnTrigger1);
         }
          catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
+   } //end of method
+   
+   //handles customer's returns.
+   public static boolean addReturnRecord(int transactionId,String userName,String productName, int quantityReturn)
+   {
+       boolean success = true;
+         try {
+            connection();
+            String getProductID = "SET @procID = (SELECT productId FROM inventory WHERE inventory.productname= '"+productName+"');";
+            String myStatement = "INSERT INTO returntable (transactionId,productId,quantity) Values("+transactionId+",@procId,"+quantityReturn+");";
+                    
+             
+            stmt = conn.createStatement();
+            stmt.execute(getProductID);
+            stmt.execute(myStatement);
+ 
+         }
+        catch (SQLException ex) {
+            success = false;
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+            return success;       
+   }//end of method.
+   
+   public static int getCustomerId(String userName)
+   {
+       int result = -99;
+        try {
+            connection();
+            stmt = conn.createStatement();
+       String set = "SET @customerName = '"+userName +"'";
+               stmt.execute(set);
+               String out = "SET @mycustomerID = 0";
+               stmt.execute(out);
+               String call = "CALL getCustomerId(@customerName,@mycustomerID);";
+               stmt.execute(call);
+               String mySelect = "SELECT @mycustomerID;";
+               stmt.execute(mySelect);
+               ResultSet rs = stmt.getResultSet();
+               if(rs.next())
+                result = rs.getInt("@mycustomerID");
+            
+             }
+        
+         
+        catch (SQLException ex) {
+     
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+           return result;
    }
 }
 
