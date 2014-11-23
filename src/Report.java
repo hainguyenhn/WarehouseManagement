@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JTable;
@@ -18,20 +19,20 @@ public class Report extends javax.swing.JFrame
 
     
     
-    public Report() {
+    public Report() 
+    {
        initComponents();
-       int initialDelay = 30000; // start after 30 seconds
-        int period = 5000;        // repeat every 5 seconds
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-       public void run() {
-      jTable1 = refreshMe(jTable1);
-             }
-};
-timer.scheduleAtFixedRate(task, initialDelay, period);
-     ;
-       
-       
+        
+    }
+    
+    public Report(int tabNum)
+    {
+        initComponents();
+        badCusPanel.setSelectedIndex(tabNum);
+         stockTable = displayStock(stockTable);
+         soldTable = displaySold(soldTable);
+         totalReturnTable = displayReturn(totalReturnTable);
+         badCusTable= displayBadCus(badCusTable);
     }
 
     /**
@@ -44,13 +45,31 @@ timer.scheduleAtFixedRate(task, initialDelay, period);
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        badCusPanel = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        stockTable = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        soldTable = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        totalReturnTable = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        badCusTable = new javax.swing.JTable();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        purchaseHistoryTable = new javax.swing.JTable();
+        jLabel6 = new javax.swing.JLabel();
+        userNameTextField = new javax.swing.JTextField();
+        getButton = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,7 +77,7 @@ timer.scheduleAtFixedRate(task, initialDelay, period);
         jLabel1.setForeground(new java.awt.Color(0, 0, 255));
         jLabel1.setText("In Stock");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        stockTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -66,11 +85,10 @@ timer.scheduleAtFixedRate(task, initialDelay, period);
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Product Id", "Pdoruct Name", "Product Desription", "Categori Id", "Quantity", "Price"
+                "Product Id", "Product Name", "Product Description", "Category Id", "Quantity", "Price"
             }
         ));
-        jTable1 = Database.displayTable(jTable1, "aa");
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(stockTable);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -80,75 +98,307 @@ timer.scheduleAtFixedRate(task, initialDelay, period);
                 .addGap(435, 435, 435)
                 .addComponent(jLabel1)
                 .addGap(0, 499, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("InStock", jPanel1);
+        badCusPanel.addTab("InStock", jPanel1);
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 204));
+        jLabel2.setText("Total Sale");
+
+        soldTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Sale Id", "Date", "Product Name", "Quantity", "Price"
+            }
+        ));
+        jScrollPane2.setViewportView(soldTable);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1010, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(450, 450, 450)
+                .addComponent(jLabel2)
+                .addGap(0, 472, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 317, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        jTabbedPane1.addTab("tab2", jPanel2);
+        badCusPanel.addTab("Sale", jPanel2);
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 204));
+        jLabel3.setText("Total Return");
+
+        totalReturnTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Date", "Sale Id", "Product Name", "Quantity"
+            }
+        ));
+        jScrollPane3.setViewportView(totalReturnTable);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1010, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(455, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(442, 442, 442))
+            .addComponent(jScrollPane3)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 317, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGap(19, 19, 19))
         );
 
-        jTabbedPane1.addTab("tab3", jPanel3);
+        badCusPanel.addTab("Return", jPanel3);
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(204, 0, 0));
+        jLabel4.setText("Bad Customer");
+
+        badCusTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "User Name", "Sale Id", "Product Name", "Quantity Returned", "Price"
+            }
+        ));
+        jScrollPane4.setViewportView(badCusTable);
+        if (badCusTable.getColumnModel().getColumnCount() > 0) {
+            badCusTable.getColumnModel().getColumn(4).setResizable(false);
+        }
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(413, 413, 413)
+                .addComponent(jLabel4)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 1019, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE))
+        );
+
+        badCusPanel.addTab("Bad Customer", jPanel4);
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 204));
+        jLabel5.setText("Purchase History");
+
+        purchaseHistoryTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Date", "Sale Id", "Product Name", "Quantity", "Price"
+            }
+        ));
+        jScrollPane5.setViewportView(purchaseHistoryTable);
+
+        jLabel6.setText("User Name:");
+
+        getButton.setText("Get");
+        getButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                getButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("jLabel7");
+        jLabel7.setVisible(false);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane5)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel6)
+                        .addGap(10, 10, 10))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(399, 399, 399)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 300, Short.MAX_VALUE)))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(userNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(getButton, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(12, 12, 12))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel6)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(getButton)
+                        .addComponent(userNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        badCusPanel.addTab("Purchase History", jPanel5);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1015, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(badCusPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1015, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1)
+                .addComponent(badCusPanel)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void getButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getButtonActionPerformed
+       boolean success = false;
+        String userName = userNameTextField.getText();
+        int customerId = Database.getCustomerId(userName);
+        System.out.print(customerId);
+        if(customerId != 0)
+        {
+            success = true;
+        }
+      
+        
+        if(!success)
+        {
+            jLabel7.setText("Customer Not Found!");
+            jLabel7.setForeground(Color.red);
+            jLabel7.setVisible(true);
+        }
+        else
+        {
+            jLabel7.setVisible(false);
+              String myStatement = "Select returntable.Date,returntable.transactionId,productname,returntable.quantity,salerecord.price"
+                + " FROM returntable JOIN transaction JOIN salerecord JOIN inventory "
+                + " WHERE returntable.transactionId = transaction.transactionID AND transaction.transactionID = salerecord.transactionId"
+                + " AND inventory.productid = salerecord.productId AND transaction.customerId ="+customerId
+                + " ORDER BY returntable.Date; ";
+        purchaseHistoryTable = Database.displayTable(purchaseHistoryTable, myStatement);
+        }
+    }//GEN-LAST:event_getButtonActionPerformed
+
     
   
     /**
      * @param args the command line arguments
      */
-    public static JTable refreshMe(JTable abc)
+    
+    //displays stock item
+    public static JTable displayStock(JTable abc)
     {
-        JTable result = Database.displayTable(abc, "fdsf");
+          String myStatement = "SELECT productid, productname, description, categoryid, quantity, price "
+                  + " FROM inventory ORDER BY productname";
+        JTable result = Database.displayTable(abc, myStatement);
         return result;
     }
+    
+    //displays stock item.
+    public static JTable displaySold(JTable abc)
+    {
+        String myStatement = "SELECT salerecord.transactionId,transaction.Date,productname,salerecord.quantity,salerecord.price"
+                + " FROM transaction JOIN salerecord JOIN inventory "
+                + " WHERE transaction.transactionId = salerecord.transactionId AND salerecord.productId = inventory.productid"
+                + " GROUP BY transaction.Date;"; 
+        JTable result = Database.displayTable(abc, myStatement);
+        return result;
+    }
+    
+    ///displays total return
+    public static JTable displayReturn(JTable abc)
+    {
+        String myStatement = "SELECT returntable.Date,returntable.transactionId,productname,returntable.quantity "
+                + " FROM returntable JOIN inventory where returntable.productId = inventory.productid "
+                + " GROUP BY returntable.Date;";
+        JTable result = Database.displayTable(abc, myStatement);
+        return result;
+    }
+    
+    //displays bad customer
+    public static JTable displayBadCus(JTable abc)
+    {
+         String myStatement = "SELECT usertable.userName,returntable.transactionId,inventory.productname,returntable.quantity,salerecord.price"
+                 + " FROM usertable JOIN inventory JOIN returntable JOIN transaction JOIN salerecord"
+                 + " WHERE usertable.customerid = transaction.customerId AND transaction.transactionID = returntable.transactionId"
+                 + " AND inventory.productid = returntable.productId AND salerecord.transactionId = transaction.transactionID "
+                 + " GROUP BY usertable.userName HAVING COUNT(*)>2";
+        JTable result = Database.displayTable(abc, myStatement);
+        return result;
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -182,13 +432,31 @@ timer.scheduleAtFixedRate(task, initialDelay, period);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTabbedPane badCusPanel;
+    private javax.swing.JTable badCusTable;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton getButton;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTable purchaseHistoryTable;
+    private javax.swing.JTable soldTable;
+    private javax.swing.JTable stockTable;
+    private javax.swing.JTable totalReturnTable;
+    private javax.swing.JTextField userNameTextField;
     // End of variables declaration//GEN-END:variables
 }
