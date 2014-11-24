@@ -1,3 +1,6 @@
+
+import java.awt.CardLayout;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -150,6 +153,7 @@ public class Login extends javax.swing.JFrame {
         String password = jPasswordField1.getText();
         
         String success = Database.login(username, password);
+        System.out.print(success);
         
         if(success == "")
         {
@@ -159,8 +163,9 @@ public class Login extends javax.swing.JFrame {
         else
         {
             jLabel5.setVisible(false);
-            this.setVisible(false);
+            this.dispose();
             new MainMenu(username,success).setVisible(true);
+            
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed

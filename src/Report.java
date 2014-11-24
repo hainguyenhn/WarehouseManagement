@@ -28,11 +28,12 @@ public class Report extends javax.swing.JFrame
     public Report(int tabNum)
     {
         initComponents();
-        badCusPanel.setSelectedIndex(tabNum);
+        reportPanel.setSelectedIndex(tabNum);
          stockTable = displayStock(stockTable);
          soldTable = displaySold(soldTable);
          totalReturnTable = displayReturn(totalReturnTable);
          badCusTable= displayBadCus(badCusTable);
+         soldOutTable = displaySoldOutTable(soldOutTable);
     }
 
     /**
@@ -45,7 +46,7 @@ public class Report extends javax.swing.JFrame
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        badCusPanel = new javax.swing.JTabbedPane();
+        reportPanel = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -70,8 +71,12 @@ public class Report extends javax.swing.JFrame
         userNameTextField = new javax.swing.JTextField();
         getButton = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        soldOutTable = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 255));
@@ -97,7 +102,7 @@ public class Report extends javax.swing.JFrame
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(435, 435, 435)
                 .addComponent(jLabel1)
-                .addGap(0, 499, Short.MAX_VALUE))
+                .addGap(0, 508, Short.MAX_VALUE))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel1Layout.setVerticalGroup(
@@ -109,7 +114,7 @@ public class Report extends javax.swing.JFrame
                 .addContainerGap())
         );
 
-        badCusPanel.addTab("InStock", jPanel1);
+        reportPanel.addTab("InStock", jPanel1);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 204));
@@ -135,7 +140,7 @@ public class Report extends javax.swing.JFrame
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(450, 450, 450)
                 .addComponent(jLabel2)
-                .addGap(0, 472, Short.MAX_VALUE))
+                .addGap(0, 481, Short.MAX_VALUE))
             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel2Layout.setVerticalGroup(
@@ -147,7 +152,7 @@ public class Report extends javax.swing.JFrame
                 .addContainerGap())
         );
 
-        badCusPanel.addTab("Sale", jPanel2);
+        reportPanel.addTab("Sale", jPanel2);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 204));
@@ -171,7 +176,7 @@ public class Report extends javax.swing.JFrame
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(455, Short.MAX_VALUE)
+                .addContainerGap(464, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addGap(442, 442, 442))
             .addComponent(jScrollPane3)
@@ -185,7 +190,7 @@ public class Report extends javax.swing.JFrame
                 .addGap(19, 19, 19))
         );
 
-        badCusPanel.addTab("Return", jPanel3);
+        reportPanel.addTab("Return", jPanel3);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(204, 0, 0));
@@ -228,7 +233,7 @@ public class Report extends javax.swing.JFrame
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE))
         );
 
-        badCusPanel.addTab("Bad Customer", jPanel4);
+        reportPanel.addTab("Bad Customer", jPanel4);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 204));
@@ -263,7 +268,6 @@ public class Report extends javax.swing.JFrame
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane5)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
@@ -273,7 +277,7 @@ public class Report extends javax.swing.JFrame
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(399, 399, 399)
                         .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 300, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
                     .addGroup(jPanel5Layout.createSequentialGroup()
@@ -281,6 +285,9 @@ public class Report extends javax.swing.JFrame
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(getButton, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 1018, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -298,24 +305,62 @@ public class Report extends javax.swing.JFrame
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(getButton)
                         .addComponent(userNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE))
         );
 
-        badCusPanel.addTab("Purchase History", jPanel5);
+        reportPanel.addTab("Purchase History", jPanel5);
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 0, 204));
+        jLabel8.setText("Sold Out");
+
+        soldOutTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Date Sold Out", "Item Name", "Price"
+            }
+        ));
+        jScrollPane6.setViewportView(soldOutTable);
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(416, 416, 416)
+                .addComponent(jLabel8)
+                .addContainerGap(527, Short.MAX_VALUE))
+            .addComponent(jScrollPane6)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        reportPanel.addTab("Sold Out", jPanel6);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(badCusPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1015, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(reportPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1015, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(badCusPanel)
+                .addComponent(reportPanel)
                 .addContainerGap())
         );
 
@@ -399,6 +444,18 @@ public class Report extends javax.swing.JFrame
         return result;
     }
     
+    //displays soldout table.
+    public static JTable displaySoldOutTable(JTable abc)
+    {
+        String myStatement = "SELECT DISTINCT max(transaction.Date), inventory.productname,salerecord.price "
+                + " FROM transaction JOIN inventory JOIN salerecord "
+                + " WHERE transaction.transactionID = salerecord.transactionId AND inventory.productid = salerecord.productId"
+                + " AND inventory.quantity = 0"
+                + " GROUP BY inventory.productname;";
+             JTable result = Database.displayTable(abc, myStatement);
+        return result;
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -432,7 +489,6 @@ public class Report extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTabbedPane badCusPanel;
     private javax.swing.JTable badCusTable;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton getButton;
@@ -443,17 +499,22 @@ public class Report extends javax.swing.JFrame
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTable purchaseHistoryTable;
+    private javax.swing.JTabbedPane reportPanel;
+    private javax.swing.JTable soldOutTable;
     private javax.swing.JTable soldTable;
     private javax.swing.JTable stockTable;
     private javax.swing.JTable totalReturnTable;

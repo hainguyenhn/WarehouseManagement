@@ -11,10 +11,13 @@
 import java.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTable;
@@ -386,7 +389,7 @@ public class Database
 "DECLARE myError INTEGER;\n" +
 "IF EXISTS \n" +
 "(SELECT * FROM salerecord WHERE salerecord.transactionId = new.transactionId AND salerecord.productId = new.productId AND salerecord.quantity >= new.quantity)\n" +
-"THEN \n" +
+"THEN \n" + 
 "UPDATE salerecord\n" +
 "SET salerecord.quantity = salerecord.quantity - new.quantity WHERE salerecord.productId = new.productId;\n"+
 "UPDATE inventory\n" +
@@ -435,6 +438,7 @@ public class Database
             return success;       
    }//end of method.
    
+   //returns customerid. 
    public static int getCustomerId(String userName)
    {
        int result = -99;
@@ -461,7 +465,51 @@ public class Database
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
            return result;
+   }//end of method.
+   
+   //handles archive fucnction
+   public static boolean archieve(Date abc)
+   {
+       boolean sucess = true;
+       try {
+            connection();
+            PreparedStatement myStatement = null;
+            Timestamp timestamp = new Timestamp(abc.getTime());
+            Timestamp currentTime = new Timestamp(new Date().getTime());
+           
+            ArrayList<String> myTables = new ArrayList<String>();
+            myTables.add("usertable");
+            myTables.add("transaction");
+            myTables.add("categorytable");
+            myTables.add("salerecord");
+            myTables.add("inventory");
+            myTables.add(("salerecord"));
+            ArrayList<String> myBackUpTables = new ArrayList<String>();
+            myBackUpTables.add("usertable_backup");
+            myBackUpTables.add("transaction_backup");
+            myBackUpTables.add("categorytable_backup");
+            myBackUpTables.add("salerecord_backup");
+            myBackUpTables.add("inventory_backup");
+            myBackUpTables.add(("salerecord_backup"));
+            
+            for(int i = 0;i < myTables.size(); i++)
+            {
+                myStatement = conn.prepareStatement("INSERT INTO "+myBackUpTables.get(i)+" SELECT * FROM "+myTables.get(i)
+                        +" WHERE updatedAt <= ?");
+                myStatement.setTimestamp(1, timestamp);
+                myStatement.execute();
+                myStatement.execute("UPDATE "+myBackUpTables.get(i) +" SET updatedAt =now();");
+                myStatement.execute();
+            }
+            
+       }
+       catch (SQLException ex) {
+            sucess = false;
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       return sucess;
    }
+   
 }
 
 
