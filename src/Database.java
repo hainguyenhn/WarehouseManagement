@@ -87,7 +87,6 @@ public class Database
    {
         try {
             connection();
-
             String myStament = "INSERT INTO usertable (userName,password,firstName,lastName,phone,address,role)"
                     + " Values ("
                     + infor.get(0).toString() +"," + infor.get(1).toString() +"," + infor.get(2).toString()+","
@@ -113,11 +112,44 @@ public class Database
    {
         try {
             connection();
+        
+             String set = "SET @itemName = '"+item.get(2)+"';";
+             String myCategoryId = "SET @myIdOut = 0;";
+             String callGetCategoryId = "Call getCategoryId(@itemName,@myIdOut);";
+             String set1 = "SELECT @myIdOut";
+             stmt.execute(set);
+             stmt.execute(myCategoryId);
+             stmt.execute(callGetCategoryId);
+             stmt.execute(set1);
+             ResultSet rs = stmt.getResultSet();
+            rs.next();
+            //check if category is already in database, if not then insert.
+             
+            System.out.print(rs.getString("@myIdOut"));
+            if(rs.wasNull())
+            {
+                System.out.print("here");
+                String myStatement0 = "INSERT INTO categorytable (categoryName) Values ('"+item.get(2)+"');";
+                stmt.execute(myStatement0);
+                stmt.execute(callGetCategoryId);
+                       stmt.execute(set);
+             stmt.execute(myCategoryId);
+             stmt.execute(callGetCategoryId);
+             stmt.execute(set1);
+              ResultSet rs1 = stmt.getResultSet();
+            rs1.next();
+            //check if category is already in database, if not then insert.
+            System.out.print("SS" + rs1.getString("@myIdOut"));
+            }
+              
             String myStament = "INSERT INTO inventory (productname,description,categoryid,quantity,price)"
                     + " Values ("
-                    + item.get(0).toString() +"," +  item.get(1).toString() +"," + Integer.parseInt(item.get(2).toString())+","
+                    + item.get(0).toString() +"," +  item.get(1).toString() +",@myIdOut,"
                     + Integer.parseInt(item.get(3).toString()) +"," + Double.parseDouble(item.get(4).toString()) +")";
-            stmt = conn.createStatement();
+            System.out.print(myStament);
+  
+            
+ 
             stmt.execute(myStament);
 
             if(stmt== null)
@@ -248,6 +280,8 @@ public class Database
         return sucess;
    } //end of updateQuantity
 
+ 
+          
    //this method delete customer from customer table using id.
    public static boolean deleteCustomer(int id)
    {
@@ -369,7 +403,7 @@ public class Database
         return success;
    }//end of checkout
 
-   //loads mysql procedures.
+   //loads mysql procedures/trigger.
    public static void loadProg()
    {
        String getcustomerIdMethod0 = "DROP PROCEDURE IF EXISTS getCustomerId;";
@@ -398,6 +432,13 @@ public class Database
 "UPDATE insert_failed SET xzd = 0;\n" +
 "END IF;\n" +
 "END";
+        String getCategoryId0 = "DROP PROCEDURE IF EXISTS getCategoryId;";
+        String getCategoryId1 = " CREATE PROCEDURE getCategoryId (IN itemName VARCHAR(50),OUT myCategoryId INT(4)) \n" +
+"BEGIN\n" +
+"SELECT categoryId INTO myCategoryId \n" +
+"FROM categorytable\n" +
+"WHERE categorytable.categoryName = itemName;\n" +
+"END  ";
        
         try {
             connection();
@@ -407,8 +448,9 @@ public class Database
             stmt.execute(getItemIdMethod0);
             stmt.execute(getItemIdMethod1);
             stmt.execute(checkReturnTrigger0);
-           // stmt.execute(delimiter);
             stmt.execute(checkReturnTrigger1);
+            stmt.execute(getCategoryId0);
+            stmt.execute(getCategoryId1);
         }
          catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
@@ -447,7 +489,7 @@ public class Database
             stmt = conn.createStatement();
        String set = "SET @customerName = '"+userName +"'";
                stmt.execute(set);
-               String out = "SET @mycustomerID = 0";
+               String out = "SET @mycustomerID = -99";
                stmt.execute(out);
                String call = "CALL getCustomerId(@customerName,@mycustomerID);";
                stmt.execute(call);
@@ -455,8 +497,7 @@ public class Database
                stmt.execute(mySelect);
                ResultSet rs = stmt.getResultSet();
                if(rs.next())
-                result = rs.getInt("@mycustomerID");
-            
+                result = rs.getInt("@mycustomerID");           
              }
         
          
