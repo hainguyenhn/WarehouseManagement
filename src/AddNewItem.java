@@ -46,7 +46,7 @@ public class AddNewItem extends javax.swing.JFrame {
         productName = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         productDescription = new javax.swing.JTextArea();
-        categoryId = new javax.swing.JTextField();
+        categoryName = new javax.swing.JTextField();
         quantity = new javax.swing.JTextField();
         price = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
@@ -83,10 +83,10 @@ public class AddNewItem extends javax.swing.JFrame {
         productDescription.setText("Product Description:");
         jScrollPane1.setViewportView(productDescription);
 
-        categoryId.setText("Category Id:");
-        categoryId.addActionListener(new java.awt.event.ActionListener() {
+        categoryName.setText("Category Name:");
+        categoryName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                categoryIdActionPerformed(evt);
+                categoryNameActionPerformed(evt);
             }
         });
 
@@ -114,7 +114,7 @@ public class AddNewItem extends javax.swing.JFrame {
             .addComponent(price, javax.swing.GroupLayout.Alignment.TRAILING)
             .addComponent(productName, javax.swing.GroupLayout.Alignment.TRAILING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(categoryId)
+            .addComponent(categoryName)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(156, Short.MAX_VALUE)
                 .addComponent(jButton1)
@@ -134,7 +134,7 @@ public class AddNewItem extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(categoryId, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(categoryName, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(quantity, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -316,14 +316,14 @@ public class AddNewItem extends javax.swing.JFrame {
         name = "'"+name+"'";
         String desc = productDescription.getText();
         desc = "'" + desc + "'";
-        String catId = categoryId.getText();
+        String catName = categoryName.getText();
         String quant = quantity.getText();
         String price1 = price.getText();
         
         ArrayList item = new ArrayList();
         item.add(name);
         item.add(desc);
-        item.add(catId);
+        item.add(catName);
         item.add(quant);
         item.add(price1);
         
@@ -340,9 +340,9 @@ public class AddNewItem extends javax.swing.JFrame {
             }  
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void categoryIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryIdActionPerformed
+    private void categoryNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_categoryIdActionPerformed
+    }//GEN-LAST:event_categoryNameActionPerformed
 
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
          
@@ -425,7 +425,7 @@ public class AddNewItem extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField categoryId;
+    private javax.swing.JTextField categoryName;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

@@ -198,19 +198,16 @@ public class Report extends javax.swing.JFrame
 
         badCusTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "User Name", "Sale Id", "Product Name", "Quantity Returned", "Price"
+                "User Name", "Number of Returns"
             }
         ));
         jScrollPane4.setViewportView(badCusTable);
-        if (badCusTable.getColumnModel().getColumnCount() > 0) {
-            badCusTable.getColumnModel().getColumn(4).setResizable(false);
-        }
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -426,7 +423,7 @@ public class Report extends javax.swing.JFrame
     public static JTable displayReturn(JTable abc)
     {
         String myStatement = "SELECT returntable.Date,returntable.transactionId,productname,returntable.quantity "
-                + " FROM returntable JOIN inventory where returntable.productId = inventory.productid "
+                + " FROM returntable JOIN inventory WHERE returntable.productId = inventory.productid "
                 + " GROUP BY returntable.Date;";
         JTable result = Database.displayTable(abc, myStatement);
         return result;
@@ -435,11 +432,12 @@ public class Report extends javax.swing.JFrame
     //displays bad customer
     public static JTable displayBadCus(JTable abc)
     {
-         String myStatement = "SELECT usertable.userName,returntable.transactionId,inventory.productname,returntable.quantity,salerecord.price"
-                 + " FROM usertable JOIN inventory JOIN returntable JOIN transaction JOIN salerecord"
-                 + " WHERE usertable.customerid = transaction.customerId AND transaction.transactionID = returntable.transactionId"
-                 + " AND inventory.productid = returntable.productId AND salerecord.transactionId = transaction.transactionID "
-                 + " GROUP BY usertable.userName HAVING COUNT(*)>2";
+         String myStatement = "SELECT x.name,count(*)  FROM(\n" +
+                    "SELECT usertable.userName as name ,returntable.transactionId,inventory.productname,returntable.quantity,salerecord.price "
+                 + "FROM usertable JOIN inventory JOIN returntable JOIN transaction JOIN salerecord "
+                 + "WHERE usertable.customerid = transaction.customerId AND transaction.transactionID = returntable.transactionId "
+                 + "AND inventory.productid = returntable.productId AND salerecord.transactionId = transaction.transactionID ) "
+                 + "as x group by x.name having count(*)>2";
         JTable result = Database.displayTable(abc, myStatement);
         return result;
     }

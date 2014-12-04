@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -47,6 +48,7 @@ public class MainMenu extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenu1 = new javax.swing.JMenu();
+        archiveAlert = new javax.swing.JPopupMenu();
         panel = new javax.swing.JPanel();
         leftPanel = new javax.swing.JPanel();
         adminMenu = new javax.swing.JPanel();
@@ -106,6 +108,7 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jButton24 = new javax.swing.JButton();
         dateChooserPanel1 = new datechooser.beans.DateChooserPanel();
+        archiveMessage = new javax.swing.JLabel();
         customerPurchaseHistory = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -652,6 +655,9 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
+        archiveMessage.setText("jLabel14");
+        archiveMessage.setVisible(false);
+
         javax.swing.GroupLayout adminArchiveLayout = new javax.swing.GroupLayout(adminArchive);
         adminArchive.setLayout(adminArchiveLayout);
         adminArchiveLayout.setHorizontalGroup(
@@ -659,26 +665,32 @@ public class MainMenu extends javax.swing.JFrame {
             .addGroup(adminArchiveLayout.createSequentialGroup()
                 .addGroup(adminArchiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(adminArchiveLayout.createSequentialGroup()
-                        .addGap(83, 83, 83)
-                        .addComponent(jLabel13))
+                        .addGap(138, 138, 138)
+                        .addComponent(jButton24))
                     .addGroup(adminArchiveLayout.createSequentialGroup()
-                        .addGap(22, 22, 22)
+                        .addContainerGap()
                         .addComponent(dateChooserPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(adminArchiveLayout.createSequentialGroup()
-                        .addGap(138, 138, 138)
-                        .addComponent(jButton24)))
-                .addContainerGap(437, Short.MAX_VALUE))
+                        .addGap(83, 83, 83)
+                        .addGroup(adminArchiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(adminArchiveLayout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(archiveMessage))
+                            .addComponent(jLabel13))))
+                .addContainerGap(447, Short.MAX_VALUE))
         );
         adminArchiveLayout.setVerticalGroup(
             adminArchiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(adminArchiveLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel13)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(12, 12, 12)
+                .addComponent(archiveMessage)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dateChooserPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton24)
-                .addContainerGap(536, Short.MAX_VALUE))
+                .addContainerGap(519, Short.MAX_VALUE))
         );
 
         rightPanel.add(adminArchive, "card11");
@@ -1069,6 +1081,19 @@ public class MainMenu extends javax.swing.JFrame {
         myDate.setMinutes(59);
         myDate.setSeconds(59);
         sucess = Database.archieve(myDate);
+        if(sucess)
+        {
+         archiveMessage.setText("Archive Succeed");
+         archiveMessage.setForeground(Color.BLUE);
+         archiveMessage.setVisible(true);
+         
+        }
+        else
+        {
+              archiveMessage.setText("Archive Failed");
+             archiveMessage.setForeground(Color.red);
+                  archiveMessage.setVisible(true);
+        }
       
     }//GEN-LAST:event_jButton24ActionPerformed
 
@@ -1089,6 +1114,8 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JPanel adminMenu;
     private javax.swing.JPanel adminProductControl;
     private javax.swing.JPanel adminReportControl;
+    private javax.swing.JPopupMenu archiveAlert;
+    private javax.swing.JLabel archiveMessage;
     private javax.swing.JTable cusStockTable;
     private javax.swing.JPanel customerCheckOutMenu;
     private javax.swing.JPanel customerMenu;

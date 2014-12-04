@@ -69,7 +69,7 @@ public class AddNewCustomer extends javax.swing.JFrame {
         passwordTextField1 = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 0, 255));
@@ -175,7 +175,7 @@ public class AddNewCustomer extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Add", jPanel1);
 
-        jLabel2.setText("Customer ID:");
+        jLabel2.setText("Username:");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(51, 0, 255));
@@ -212,7 +212,7 @@ public class AddNewCustomer extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(81, 81, 81)
                         .addComponent(jButton2)))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,7 +236,7 @@ public class AddNewCustomer extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(51, 0, 255));
         jLabel4.setText("Update");
 
-        jLabel5.setText("Customer ID: ");
+        jLabel5.setText("Username");
 
         jButton3.setText("Get");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -327,7 +327,7 @@ public class AddNewCustomer extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(customerId, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)))))
+                                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)))))
                 .addContainerGap())
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(86, 86, 86)
@@ -434,7 +434,8 @@ public class AddNewCustomer extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
        String myId = jTextField1.getText();
-       boolean success = Database.deleteCustomer(Integer.valueOf(myId));
+       int cusId = Database.getCustomerId(myId);
+       boolean success = Database.deleteCustomer(cusId);
        if(success)
        {
             messageLabel.setText("Delete Completed");
@@ -467,7 +468,7 @@ public class AddNewCustomer extends javax.swing.JFrame {
     }//GEN-LAST:event_adminRadioActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       int myId = Integer.valueOf(customerId.getText());
+       int myId = Database.getCustomerId(customerId.getText());
        Customer result = Database.searchCustomer(myId,new Customer());
        
        if(result == null)

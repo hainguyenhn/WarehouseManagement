@@ -53,7 +53,7 @@
                   <Component id="price" alignment="1" max="32767" attributes="0"/>
                   <Component id="productName" alignment="1" max="32767" attributes="0"/>
                   <Component id="jScrollPane1" alignment="1" max="32767" attributes="0"/>
-                  <Component id="categoryId" alignment="0" max="32767" attributes="0"/>
+                  <Component id="categoryName" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace pref="156" max="32767" attributes="0"/>
                       <Component id="jButton1" min="-2" max="-2" attributes="0"/>
@@ -76,7 +76,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="115" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="categoryId" min="-2" pref="37" max="-2" attributes="0"/>
+                      <Component id="categoryName" min="-2" pref="37" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="quantity" min="-2" pref="37" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -124,12 +124,12 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JTextField" name="categoryId">
+            <Component class="javax.swing.JTextField" name="categoryName">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Category Id:"/>
+                <Property name="text" type="java.lang.String" value="Category Name:"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="categoryIdActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="categoryNameActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="quantity">
